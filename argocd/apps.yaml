@@ -1,0 +1,61 @@
+# STG Application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-stg
+  namespace: argocd
+  annotations:
+    # This allows Kargo to manage this app (optional, since we're using git-based promotion)
+    kargo.akuity.io/authorized-stage: nginx-test:nginx-stg
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/dbeilin-playground/config.git
+    path: argocd/stg/nginx
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - values.yaml
+      - values-image.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nginx-stg
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    retry:
+      limit: 3
+
+---
+# CAND Application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-cand
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: nginx-test:nginx-cand
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/dbeilin-playground/config.git
+    path: argocd/cand/nginx
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - values.yaml
+      - values-image.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nginx-cand
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    retry:
+      limit: 3

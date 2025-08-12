@@ -1,0 +1,13 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: nginx
+  namespace: nginx-test
+  annotations:
+    kargo.akuity.io/description: "Monitors nginx-app images"
+spec:
+  subscriptions:
+  - image:
+      repoURL: ghcr.io/dbeilin-playground/nginx-app
+      imageSelectionStrategy: Lexical  # Gets newest based on tag name
+      allowTags: ^v1\.0\..*  # Only tags starting with v1.0.

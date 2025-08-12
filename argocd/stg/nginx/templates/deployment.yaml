@@ -16,6 +16,7 @@ spec:
         app: nginx
         env: {{ .Values.environment }}
     spec:
+      serviceAccountName: {{ .Chart.Name }}-{{ .Values.environment }}-sa
       containers:
       - name: nginx
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
