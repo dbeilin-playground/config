@@ -1,7 +1,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: nginx-stg
+  name: stg
   namespace: nginx-test
   annotations:
     kargo.akuity.io/color: green
