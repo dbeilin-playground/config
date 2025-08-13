@@ -1,14 +1,19 @@
+# Default values that can be overridden by dependent charts
 app:
-  name: nginx
+  name: my-app
   port: 80
 
 replicaCount: 1
+environment: stg
+
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: Always
 
 service:
   type: ClusterIP
   port: 80
-
-environment: cand
 
 resources:
   limits:

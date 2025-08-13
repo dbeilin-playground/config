@@ -1,6 +1,11 @@
 apiVersion: v2
 name: hello-api
-description: Test hello-api service
+description: Hello API application for CAND environment
 type: application
 version: 0.1.0
 appVersion: "1.0"
+
+dependencies:
+- name: app-base
+  version: "0.1.0"
+  repository: "file://../../charts/app-base"

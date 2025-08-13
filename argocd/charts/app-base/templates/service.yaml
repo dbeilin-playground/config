@@ -1,15 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-api
+  name: {{ .Values.app.name }}-{{ .Values.environment }}
   labels:
-    app: hello-api
+    app: {{ .Values.app.name }}
     env: {{ .Values.environment }}
 spec:
   type: {{ .Values.service.type }}
   ports:
   - port: {{ .Values.service.port }}
-    targetPort: 8080
+    targetPort: {{ .Values.app.port }}
     protocol: TCP
   selector:
-    app: hello-api
+    app: {{ .Values.app.name }}
+    env: {{ .Values.environment }}

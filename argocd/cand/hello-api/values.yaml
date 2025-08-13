@@ -1,3 +1,7 @@
+app:
+  name: hello-api
+  port: 8080
+
 replicaCount: 1
 
 service:
