@@ -21,17 +21,20 @@ stringData:
 EOF
 ```
 
-Also, need to give SA permissions to pull from GH:
-```
-kubectl create secret docker-registry ghcr-creds \
-  --docker-server=ghcr.io \
-  --docker-username=<your-github-username> \
-  --docker-password=<PAT with read:packages> \
-  -n nginx-stg
-
-kubectl create secret docker-registry ghcr-creds \
-  --docker-server=ghcr.io \
-  --docker-username=<your-github-username> \
-  --docker-password=<PAT with read:packages> \
-  -n nginx-cand
+### Create Kargo Secret
+```shell
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: github-creds
+  namespace: apps  # This should be in your Kargo project namespace
+  labels:
+    kargo.akuity.io/cred-type: git
+stringData:
+  repoURL: https://github.com/dbeilin-playground
+  username: your-github-username
+  password: ghp_your_personal_access_token_here
+EOF
 ```
