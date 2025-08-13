@@ -1,0 +1,29 @@
+name: auto-approve-merge
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  auto-approve-merge:
+    if: ${{ github.event.label.name == 'automated_pr' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto approve 
+        uses: hmarr/auto-approve-action@v4
+        with:
+          review-message: "Auto approved by Github Action מקורח הנסיבות"
+          github-token: ${{ secrets.PAT_TOKEN }}
+          
+      - name: Auto merge
+        run: |
+          n=0
+          until [ "$n" -ge 2 ]; do
+             # gh pr checks --watch --interval 1 --required "$PR_URL"
+             gh pr merge --admin --squash "$PR_URL" && break
+             n=$((n+1))
+             sleep 3
+          done
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
