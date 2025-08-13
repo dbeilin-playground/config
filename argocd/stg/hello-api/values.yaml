@@ -1,0 +1,15 @@
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8080
+
+environment: stg
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi

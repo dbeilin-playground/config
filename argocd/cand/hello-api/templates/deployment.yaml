@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-api
+  labels:
+    app: hello-api
+    env: {{ .Values.environment }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: hello-api
+  template:
+    metadata:
+      labels:
+        app: hello-api
+        env: {{ .Values.environment }}
+    spec:
+      serviceAccountName: {{ .Chart.Name }}-{{ .Values.environment }}-sa
+      containers:
+      - name: hello-api
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENVIRONMENT
+          value: {{ .Values.environment }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}

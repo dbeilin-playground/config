@@ -1,12 +1,11 @@
-# STG Application
+# Nginx STG Application
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: nginx-stg
   namespace: argocd
   annotations:
-    # This allows Kargo to manage this app (optional, since we're using git-based promotion)
-    kargo.akuity.io/authorized-stage: nginx-test:nginx-stg
+    kargo.akuity.io/authorized-stage: apps:nginx-stg
 spec:
   project: default
   source:
@@ -19,7 +18,7 @@ spec:
       - values-image.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: nginx-stg
+    namespace: apps  # Changed from nginx-stg
   syncPolicy:
     automated:
       prune: true
@@ -30,14 +29,14 @@ spec:
       limit: 3
 
 ---
-# CAND Application
+# Nginx CAND Application
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: nginx-cand
   namespace: argocd
   annotations:
-    kargo.akuity.io/authorized-stage: nginx-test:nginx-cand
+    kargo.akuity.io/authorized-stage: apps:nginx-cand
 spec:
   project: default
   source:
@@ -50,7 +49,69 @@ spec:
       - values-image.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: nginx-cand
+    namespace: apps  # Changed from nginx-cand
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    retry:
+      limit: 3
+
+---
+# Hello-API STG Application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-api-stg
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: apps:hello-api-stg
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/dbeilin-playground/config.git
+    path: argocd/stg/hello-api
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - values.yaml
+      - values-image.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    retry:
+      limit: 3
+
+---
+# Hello-API CAND Application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-api-cand
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: apps:hello-api-cand
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/dbeilin-playground/config.git
+    path: argocd/cand/hello-api
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - values.yaml
+      - values-image.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
   syncPolicy:
     automated:
       prune: true

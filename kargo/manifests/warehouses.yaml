@@ -1,0 +1,28 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: nginx
+  namespace: apps
+  annotations:
+    kargo.akuity.io/description: "Watches nginx config changes in stg"
+spec:
+  subscriptions:
+  - git:
+      repoURL: https://github.com/dbeilin-playground/config.git
+      includePaths:
+      - argocd/stg/nginx/
+
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: hello-api
+  namespace: apps
+  annotations:
+    kargo.akuity.io/description: "Watches hello-api config changes in stg"
+spec:
+  subscriptions:
+  - git:
+      repoURL: https://github.com/dbeilin-playground/config.git
+      includePaths:
+      - argocd/stg/hello-api/

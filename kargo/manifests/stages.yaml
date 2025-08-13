@@ -1,0 +1,122 @@
+# STG Stages - These just reflect current state
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: nginx-stg
+  namespace: apps
+  annotations:
+    kargo.akuity.io/color: green
+    kargo.akuity.io/description: "STG environment for nginx (reflects current deployed state)"
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: nginx
+    sources:
+      direct: true
+
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: hello-api-stg
+  namespace: apps
+  annotations:
+    kargo.akuity.io/color: blue
+    kargo.akuity.io/description: "STG environment for hello-api (reflects current deployed state)"
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: hello-api
+    sources:
+      direct: true
+
+---
+# CAND Stages - These do actual promotion from STG
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: nginx-cand
+  namespace: apps
+  annotations:
+    kargo.akuity.io/color: yellow
+    kargo.akuity.io/description: "CAND environment for nginx"
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: nginx
+    sources:
+      stages: [nginx-stg]
+  promotionTemplate:
+    spec:
+      vars:
+      - name: gitRepo
+        value: https://github.com/dbeilin-playground/config.git
+      steps:
+      - uses: git-clone
+        config:
+          repoURL: ${{ vars.gitRepo }}
+          checkout:
+          - branch: main
+            path: ./config
+      - uses: copy
+        config:
+          inPath: ./config/argocd/stg/nginx/values-image.yaml
+          outPath: ./config/argocd/cand/nginx/values-image.yaml
+      - uses: git-commit
+        as: commit
+        config:
+          path: ./config
+          message: "🚀 Promote nginx stg → cand"
+          author:
+            name: "Kargo Bot"
+            email: "kargo@apps.com"
+      - uses: git-push
+        config:
+          path: ./config
+
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: hello-api-cand
+  namespace: apps
+  annotations:
+    kargo.akuity.io/color: orange
+    kargo.akuity.io/description: "CAND environment for hello-api"
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: hello-api
+    sources:
+      stages: [hello-api-stg]
+  promotionTemplate:
+    spec:
+      vars:
+      - name: gitRepo
+        value: https://github.com/dbeilin-playground/config.git
+      steps:
+      - uses: git-clone
+        config:
+          repoURL: ${{ vars.gitRepo }}
+          checkout:
+          - branch: main
+            path: ./config
+      - uses: copy
+        config:
+          inPath: ./config/argocd/stg/hello-api/values-image.yaml
+          outPath: ./config/argocd/cand/hello-api/values-image.yaml
+      - uses: git-commit
+        as: commit
+        config:
+          path: ./config
+          message: "🚀 Promote hello-api stg → cand"
+          author:
+            name: "Kargo Bot"
+            email: "kargo@apps.com"
+      - uses: git-push
+        config:
+          path: ./config
