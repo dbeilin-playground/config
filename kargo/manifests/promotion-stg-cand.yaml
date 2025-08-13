@@ -1,12 +1,12 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ClusterPromotionTask
 metadata:
-  name: standard-promotion-pattern
+  name: stg-to-cand-promotion
 spec:
   vars:
   - name: appName      # e.g., "nginx" or "hello-api"
-  - name: sourceEnv    # e.g., "stg" or "cand" 
-  - name: targetEnv    # e.g., "cand" or "prod"
+  - name: sourceEnv    # "stg"
+  - name: targetEnv    # "cand"
   steps:
   - uses: git-clone
     config:

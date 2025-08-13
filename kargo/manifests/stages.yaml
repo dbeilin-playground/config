@@ -1,4 +1,5 @@
-# STG Stages - Control Flow (no promotion logic, just receive from warehouses)
+# kargo/manifests/stages.yaml
+# STG Stages - No promotion steps needed
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
@@ -6,14 +7,14 @@ metadata:
   namespace: apps
   annotations:
     kargo.akuity.io/color: green
-    kargo.akuity.io/description: "STG environment for nginx (reflects current deployed state)"
+    kargo.akuity.io/description: "STG environment for nginx"
 spec:
   requestedFreight:
   - origin:
       kind: Warehouse
       name: nginx
     sources:
-      direct: true  # Receives freight directly from warehouse
+      direct: true
 
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -23,17 +24,17 @@ metadata:
   namespace: apps
   annotations:
     kargo.akuity.io/color: blue
-    kargo.akuity.io/description: "STG environment for hello-api (reflects current deployed state)"
+    kargo.akuity.io/description: "STG environment for hello-api"
 spec:
   requestedFreight:
   - origin:
       kind: Warehouse
       name: hello-api
     sources:
-      direct: true  # Receives freight directly from warehouse
+      direct: true
 
 ---
-# CAND Stages - Actual Promotion (using reusable PromotionTask)
+# CAND Stages - Use the promotion task
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
@@ -48,12 +49,12 @@ spec:
       kind: Warehouse
       name: nginx
     sources:
-      stages: [nginx-stg]  # Takes freight FROM nginx-stg stage
+      stages: [nginx-stg]
   promotionTemplate:
     spec:
       steps:
       - task:
-          name: standard-promotion-pattern
+          name: stg-to-cand-promotion
           kind: ClusterPromotionTask
         vars:
         - name: appName
@@ -78,12 +79,12 @@ spec:
       kind: Warehouse
       name: hello-api
     sources:
-      stages: [hello-api-stg]  # Takes freight FROM hello-api-stg stage
+      stages: [hello-api-stg]
   promotionTemplate:
     spec:
       steps:
       - task:
-          name: standard-promotion-pattern
+          name: stg-to-cand-promotion
           kind: ClusterPromotionTask
         vars:
         - name: appName
