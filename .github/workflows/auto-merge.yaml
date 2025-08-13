@@ -8,12 +8,14 @@ jobs:
   auto-approve-merge:
     if: ${{ github.event.label.name == 'automated_pr' }}
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Auto approve 
         uses: hmarr/auto-approve-action@v4
         with:
           review-message: "Auto approved by Github Action מקורח הנסיבות"
-          github-token: ${{ secrets.PAT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Auto merge
         run: |
