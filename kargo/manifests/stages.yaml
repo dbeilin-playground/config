@@ -1,4 +1,4 @@
-# STG Stages - These just reflect current state
+# STG Stages - Control Flow (no promotion logic, just receive from warehouses)
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
@@ -13,7 +13,7 @@ spec:
       kind: Warehouse
       name: nginx
     sources:
-      direct: true
+      direct: true  # Receives freight directly from warehouse
 
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -30,10 +30,10 @@ spec:
       kind: Warehouse
       name: hello-api
     sources:
-      direct: true
+      direct: true  # Receives freight directly from warehouse
 
 ---
-# CAND Stages - These do actual promotion from STG
+# CAND Stages - Actual Promotion (using reusable PromotionTask)
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
@@ -48,34 +48,20 @@ spec:
       kind: Warehouse
       name: nginx
     sources:
-      stages: [nginx-stg]
+      stages: [nginx-stg]  # Takes freight FROM nginx-stg stage
   promotionTemplate:
     spec:
-      vars:
-      - name: gitRepo
-        value: https://github.com/dbeilin-playground/config.git
       steps:
-      - uses: git-clone
-        config:
-          repoURL: ${{ vars.gitRepo }}
-          checkout:
-          - branch: main
-            path: ./config
-      - uses: copy
-        config:
-          inPath: ./config/argocd/stg/nginx/values-image.yaml
-          outPath: ./config/argocd/cand/nginx/values-image.yaml
-      - uses: git-commit
-        as: commit
-        config:
-          path: ./config
-          message: "🚀 Promote nginx stg → cand"
-          author:
-            name: "Kargo Bot"
-            email: "kargo@apps.com"
-      - uses: git-push
-        config:
-          path: ./config
+      - task:
+          name: standard-promotion-pattern
+          kind: ClusterPromotionTask
+        vars:
+        - name: appName
+          value: nginx
+        - name: sourceEnv
+          value: stg
+        - name: targetEnv
+          value: cand
 
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -92,31 +78,17 @@ spec:
       kind: Warehouse
       name: hello-api
     sources:
-      stages: [hello-api-stg]
+      stages: [hello-api-stg]  # Takes freight FROM hello-api-stg stage
   promotionTemplate:
     spec:
-      vars:
-      - name: gitRepo
-        value: https://github.com/dbeilin-playground/config.git
       steps:
-      - uses: git-clone
-        config:
-          repoURL: ${{ vars.gitRepo }}
-          checkout:
-          - branch: main
-            path: ./config
-      - uses: copy
-        config:
-          inPath: ./config/argocd/stg/hello-api/values-image.yaml
-          outPath: ./config/argocd/cand/hello-api/values-image.yaml
-      - uses: git-commit
-        as: commit
-        config:
-          path: ./config
-          message: "🚀 Promote hello-api stg → cand"
-          author:
-            name: "Kargo Bot"
-            email: "kargo@apps.com"
-      - uses: git-push
-        config:
-          path: ./config
+      - task:
+          name: standard-promotion-pattern
+          kind: ClusterPromotionTask
+        vars:
+        - name: appName
+          value: hello-api
+        - name: sourceEnv
+          value: stg
+        - name: targetEnv
+          value: cand
