@@ -1,0 +1,15 @@
+{{- if .Values.kargo.warehouse }}
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: {{ .Values.app.name }}
+  namespace: apps
+  annotations:
+    kargo.akuity.io/description: "Watches {{ .Values.app.name }} config changes in {{ .Values.kargo.warehouse.watchPath }}"
+spec:
+  subscriptions:
+  - git:
+      repoURL: https://github.com/dbeilin-playground/config.git
+      includePaths:
+      - {{ .Values.kargo.warehouse.watchPath }}
+{{- end }}

@@ -4,12 +4,11 @@ base:
     port: 80
 
   replicaCount: 1
+  environment: cand
 
   service:
     type: ClusterIP
     port: 80
-
-  environment: cand
 
   resources:
     limits:
@@ -18,3 +17,11 @@ base:
     requests:
       cpu: 50m
       memory: 64Mi
+
+  kargo:
+    warehouse:
+      watchPath: argocd/stg/nginx/
+    stage:
+      directFromWarehouse: true
+      sourceEnv: stg
+      promotionTemplate: promote-between-envs

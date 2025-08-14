@@ -4,12 +4,11 @@ base:
     port: 8080
 
   replicaCount: 1
+  environment: prod
 
   service:
     type: ClusterIP
     port: 8080
-
-  environment: prod
 
   resources:
     limits:
@@ -18,3 +17,10 @@ base:
     requests:
       cpu: 50m
       memory: 64Mi
+
+  kargo:
+    stage:
+      directFromWarehouse: false
+      sourceStage: cand
+      sourceEnv: cand
+      promotionTemplate: promote-between-envs

@@ -4,12 +4,11 @@ base:
     port: 8080
 
   replicaCount: 1
+  environment: cand
 
   service:
     type: ClusterIP
     port: 8080
-
-  environment: cand
 
   resources:
     limits:
@@ -18,3 +17,11 @@ base:
     requests:
       cpu: 50m
       memory: 64Mi
+
+  kargo:
+    warehouse:
+      watchPath: argocd/stg/hello-api/
+    stage:
+      directFromWarehouse: true
+      sourceEnv: stg
+      promotionTemplate: promote-between-envs
