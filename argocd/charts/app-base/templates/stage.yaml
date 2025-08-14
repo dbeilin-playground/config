@@ -1,4 +1,4 @@
-{{- if and .Values.kargo .Values.kargo.stage }}
+{{- if .Values.kargo.stage.enabled }}
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:

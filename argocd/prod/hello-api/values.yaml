@@ -20,7 +20,7 @@ base:
 
   kargo:
     stage:
+      enabled: true
       directFromWarehouse: false
       sourceStage: cand
       sourceEnv: cand
-      promotionTemplate: promote-between-envs

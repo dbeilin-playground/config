@@ -32,4 +32,4 @@ kargo:
     directFromWarehouse: false
     sourceStage: ""
     sourceEnv: ""
-    promotionTemplate: ""
+    promotionTemplate: "promote-between-envs"

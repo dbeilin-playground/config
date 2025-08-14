@@ -19,9 +19,7 @@ base:
       memory: 64Mi
 
   kargo:
-    warehouse:
-      watchPath: argocd/stg/hello-api/
     stage:
+      enabled: true
       directFromWarehouse: true
       sourceEnv: stg
-      promotionTemplate: promote-between-envs

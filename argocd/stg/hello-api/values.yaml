@@ -4,12 +4,11 @@ base:
     port: 8080
 
   replicaCount: 1
+  environment: stg
 
   service:
     type: ClusterIP
     port: 8080
-
-  environment: stg
 
   resources:
     limits:
@@ -18,3 +17,8 @@ base:
     requests:
       cpu: 50m
       memory: 64Mi
+
+  kargo:
+    warehouse:
+      enabled: true
+      watchPath: argocd/stg/hello-api/

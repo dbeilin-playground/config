@@ -1,4 +1,4 @@
-{{- if and .Values.kargo .Values.kargo.warehouse .Values.kargo.warehouse.watchPath }}
+{{- if .Values.kargo.warehouse.enabled }}
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
