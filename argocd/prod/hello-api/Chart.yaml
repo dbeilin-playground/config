@@ -1,6 +1,6 @@
 apiVersion: v2
 name: hello-api
-description: Hello API application for CAND environment
+description: Hello API application for PROD environment
 type: application
 version: 0.1.0
 appVersion: "1.0"
