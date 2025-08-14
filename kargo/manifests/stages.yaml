@@ -14,16 +14,6 @@ spec:
       name: nginx
     sources:
       direct: true
-  promotionTemplate:
-    spec:
-      steps:
-      - uses: argocd-update
-        config:
-          apps:
-          - name: nginx-stg
-            namespace: argocd
-            sources:
-            - repoURL: https://github.com/dbeilin-playground/config.git
 
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -41,16 +31,6 @@ spec:
       name: hello-api
     sources:
       direct: true
-  promotionTemplate:
-    spec:
-      steps:
-      - uses: argocd-update
-        config:
-          apps:
-          - name: hello-api-stg
-            namespace: argocd
-            sources:
-            - repoURL: https://github.com/dbeilin-playground/config.git
 
 ---
 # CAND Stages - Use the promotion task
