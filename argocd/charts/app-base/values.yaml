@@ -24,5 +24,12 @@ resources:
     memory: 64Mi
 
 kargo:
-  # warehouse: {}
-  # stage: {}
+  warehouse:
+    enabled: false
+    watchPath: ""
+  stage:
+    enabled: false
+    directFromWarehouse: false
+    sourceStage: ""
+    sourceEnv: ""
+    promotionTemplate: ""
