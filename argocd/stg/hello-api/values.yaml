@@ -21,4 +21,4 @@ base:
   kargo:
     warehouse:
       enabled: true
-      watchPath: argocd/stg/hello-api/
+      watchPath: argocd/stg/hello-api/values-image.yaml

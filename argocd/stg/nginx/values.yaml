@@ -21,4 +21,4 @@ base:
   kargo:
     warehouse:
       enabled: true
-      watchPath: argocd/stg/nginx/
+      watchPath: argocd/stg/nginx/values-image.yaml
