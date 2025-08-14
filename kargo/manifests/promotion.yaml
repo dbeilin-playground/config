@@ -36,4 +36,3 @@ spec:
         namespace: argocd
         sources:
         - repoURL: https://github.com/dbeilin-playground/config.git
-          desiredRevision: ${{ task.outputs.commit.commit }}
