@@ -11,7 +11,6 @@ spec:
       repoURL: https://github.com/dbeilin-playground/config.git
       includePaths:
       - argocd/stg/nginx/
-      discoveryLimit: 2
 
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -27,4 +26,3 @@ spec:
       repoURL: https://github.com/dbeilin-playground/config.git
       includePaths:
       - argocd/stg/hello-api/
-      discoveryLimit: 2
