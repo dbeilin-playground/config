@@ -1,5 +1,5 @@
 base:
   image:
     repository: ghcr.io/dbeilin-playground/nginx
-    tag: v1.0.20250814092727-958242e
+    tag: v1.0.20250814093454-1663110
     pullPolicy: Always
