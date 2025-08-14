@@ -4,10 +4,4 @@ metadata:
   name: apps
   namespace: apps
 spec:
-  promotionPolicies:
-  - stageSelector:
-      name: nginx-stg
-    autoPromotionEnabled: true
-  - stageSelector:
-      name: hello-api-stg
-    autoPromotionEnabled: true
+  promotionPolicies: []

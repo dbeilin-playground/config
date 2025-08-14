@@ -1,39 +1,4 @@
-# STG Stages
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: nginx-stg
-  namespace: apps
-  annotations:
-    kargo.akuity.io/color: green
-    kargo.akuity.io/description: "STG environment for nginx"
-spec:
-  requestedFreight:
-  - origin:
-      kind: Warehouse
-      name: nginx
-    sources:
-      direct: true
-
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: hello-api-stg
-  namespace: apps
-  annotations:
-    kargo.akuity.io/color: blue
-    kargo.akuity.io/description: "STG environment for hello-api"
-spec:
-  requestedFreight:
-  - origin:
-      kind: Warehouse
-      name: hello-api
-    sources:
-      direct: true
-
----
-# CAND Stages - Use the promotion task
+# CAND Stages - Get freight DIRECTLY from warehouses
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
@@ -48,12 +13,12 @@ spec:
       kind: Warehouse
       name: nginx
     sources:
-      stages: [nginx-stg]
+      direct: true
   promotionTemplate:
     spec:
       steps:
       - task:
-          name: stg-to-cand-promotion
+          name: promote-between-envs
           kind: ClusterPromotionTask
         vars:
         - name: appName
@@ -70,7 +35,7 @@ metadata:
   name: hello-api-cand
   namespace: apps
   annotations:
-    kargo.akuity.io/color: orange
+    kargo.akuity.io/color: yellow
     kargo.akuity.io/description: "CAND environment for hello-api"
 spec:
   requestedFreight:
@@ -78,12 +43,12 @@ spec:
       kind: Warehouse
       name: hello-api
     sources:
-      stages: [hello-api-stg]
+      direct: true
   promotionTemplate:
     spec:
       steps:
       - task:
-          name: stg-to-cand-promotion
+          name: promote-between-envs
           kind: ClusterPromotionTask
         vars:
         - name: appName
@@ -92,3 +57,64 @@ spec:
           value: stg
         - name: targetEnv
           value: cand
+
+---
+# PROD Stages - Get freight from CAND stages
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: nginx-prod
+  namespace: apps
+  annotations:
+    kargo.akuity.io/color: red
+    kargo.akuity.io/description: "PROD environment for nginx"
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: nginx
+    sources:
+      stages: [nginx-cand]  # Get freight from CAND stage
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: promote-between-envs
+          kind: ClusterPromotionTask
+        vars:
+        - name: appName
+          value: nginx
+        - name: sourceEnv
+          value: cand
+        - name: targetEnv
+          value: prod
+
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: hello-api-prod
+  namespace: apps
+  annotations:
+    kargo.akuity.io/color: red
+    kargo.akuity.io/description: "PROD environment for hello-api"
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: hello-api
+    sources:
+      stages: [hello-api-cand]  # Get freight from CAND stage
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: promote-between-envs
+          kind: ClusterPromotionTask
+        vars:
+        - name: appName
+          value: hello-api
+        - name: sourceEnv
+          value: cand
+        - name: targetEnv
+          value: prod

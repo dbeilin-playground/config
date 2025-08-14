@@ -18,7 +18,7 @@ spec:
       - values-image.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: apps  # Changed from nginx-stg
+    namespace: apps
   syncPolicy:
     automated:
       prune: true
@@ -49,11 +49,35 @@ spec:
       - values-image.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: apps  # Changed from nginx-cand
+    namespace: apps
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    retry:
+      limit: 3
+---
+# Nginx PROD Application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-prod
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: apps:nginx-prod
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/dbeilin-playground/config.git
+    path: argocd/prod/nginx
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - values.yaml
+      - values-image.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
+  syncPolicy:
     syncOptions:
     - CreateNamespace=true
     retry:
@@ -113,9 +137,34 @@ spec:
     server: https://kubernetes.default.svc
     namespace: apps
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    retry:
+      limit: 3
+
+---
+# Hello-API PROD Application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-api-prod
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: apps:hello-api-prod
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/dbeilin-playground/config.git
+    path: argocd/prod/hello-api
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+      - values.yaml
+      - values-image.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
+  syncPolicy:
     syncOptions:
     - CreateNamespace=true
     retry:
