@@ -1,0 +1,26 @@
+base:
+  app:
+    name: nginx
+    port: 80
+
+  replicaCount: 1
+  environment: prod
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+  kargo:
+    stage:
+      enabled: true
+      directFromWarehouse: false
+      sourceStage: cand
+      sourceEnv: cand
