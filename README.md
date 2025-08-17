@@ -16,9 +16,19 @@ metadata:
 stringData:
   type: git
   url: https://github.com/dbeilin-playground
-  username: your-github-username
-  password: ghp_your_token_here
+  username: dbeilin
+  password: REDACTED
 EOF
+```
+
+### Create Kubernetes Registry Secret
+
+```shell
+kubectl create secret docker-registry ghcr-creds \
+  --docker-server=ghcr.io \
+  --docker-username=dbeilin \
+  --docker-password=REDACTED \
+  --namespace=apps
 ```
 
 ### Create Kargo Secret
@@ -29,12 +39,13 @@ kind: Secret
 type: Opaque
 metadata:
   name: github-creds
-  namespace: apps  # This should be in your Kargo project namespace
+  namespace: apps
   labels:
     kargo.akuity.io/cred-type: git
 stringData:
   repoURL: https://github.com/dbeilin-playground
-  username: your-github-username
-  password: ghp_your_personal_access_token_here
+  repoURLIsRegex: "true"
+  username: dbeilin
+  password: REDACTED
 EOF
 ```
