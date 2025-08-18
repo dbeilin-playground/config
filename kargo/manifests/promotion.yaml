@@ -4,9 +4,10 @@ metadata:
   name: promote-between-envs
 spec:
   vars:
-  - name: appName      # e.g., "nginx" or "hello-api"
-  - name: sourceEnv    # e.g., "stg" or "cand"
-  - name: targetEnv    # e.g., "cand" or "prod"
+  - name: sourcePath     # e.g., "argocd/stg/stg-be/hello-api"
+  - name: targetPath     # e.g., "argocd/cand/candidate-fra"
+  - name: appName        # e.g., "hello-api" (for ArgoCD app reference)
+  - name: targetEnv      # e.g., "cand" (for ArgoCD app reference)
   steps:
   - uses: git-clone
     config:
@@ -16,13 +17,13 @@ spec:
         path: ./config
   - uses: copy
     config:
-      inPath: ./config/argocd/${{ vars.sourceEnv }}/${{ vars.appName }}/values-image.yaml
-      outPath: ./config/argocd/${{ vars.targetEnv }}/${{ vars.appName }}/values-image.yaml
+      inPath: ./config/${{ vars.sourcePath }}/values-image.yaml
+      outPath: ./config/${{ vars.targetPath }}/values-image.yaml
   - uses: git-commit
     as: commit
     config:
       path: ./config
-      message: "🚀 Promote ${{ vars.appName }} ${{ vars.sourceEnv }} → ${{ vars.targetEnv }}"
+      message: "🚀 Promote ${{ vars.sourcePath }} → ${{ vars.targetPath }}"
       author:
         name: "Kargo Bot"
         email: "kargo@apps.com"

@@ -1,4 +1,3 @@
-# Default values that can be overridden by dependent charts
 app:
   name: my-app
   port: 80
@@ -31,5 +30,6 @@ kargo:
     enabled: false
     directFromWarehouse: false
     sourceStage: ""
-    sourceEnv: ""
+    sourcePath: ""
+    targetPath: ""
     promotionTemplate: "promote-between-envs"

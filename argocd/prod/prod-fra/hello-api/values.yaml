@@ -4,7 +4,7 @@ base:
     port: 8080
 
   replicaCount: 1
-  environment: stg
+  environment: prod
 
   service:
     type: ClusterIP
@@ -19,6 +19,9 @@ base:
       memory: 64Mi
 
   kargo:
-    warehouse:
+    stage:
       enabled: true
-      watchPath: argocd/stg/hello-api/values-image.yaml
+      directFromWarehouse: false
+      sourceStage: cand
+      sourcePath: argocd/cand/candidate-fra
+      targetPath: argocd/prod/prod-fra

@@ -4,7 +4,7 @@ base:
     port: 8080
 
   replicaCount: 1
-  environment: prod
+  environment: cand
 
   service:
     type: ClusterIP
@@ -21,6 +21,6 @@ base:
   kargo:
     stage:
       enabled: true
-      directFromWarehouse: false
-      sourceStage: cand
-      sourceEnv: cand
+      directFromWarehouse: true
+      sourcePath: argocd/stg/stg-be/hello-api
+      targetPath: argocd/cand/candidate-fra

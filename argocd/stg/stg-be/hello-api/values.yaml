@@ -4,7 +4,7 @@ base:
     port: 8080
 
   replicaCount: 1
-  environment: cand
+  environment: stg
 
   service:
     type: ClusterIP
@@ -19,7 +19,6 @@ base:
       memory: 64Mi
 
   kargo:
-    stage:
+    warehouse:
       enabled: true
-      directFromWarehouse: true
-      sourceEnv: stg
+      watchPath: argocd/stg/stg-be/hello-api/values-image.yaml

@@ -24,10 +24,12 @@ spec:
           name: {{ .Values.kargo.stage.promotionTemplate }}
           kind: ClusterPromotionTask
         vars:
+        - name: sourcePath
+          value: {{ .Values.kargo.stage.sourcePath }}
+        - name: targetPath
+          value: {{ .Values.kargo.stage.targetPath }}
         - name: appName
           value: {{ .Values.app.name }}
-        - name: sourceEnv
-          value: {{ .Values.kargo.stage.sourceEnv }}
         - name: targetEnv
           value: {{ .Values.environment }}
 {{- end }}
