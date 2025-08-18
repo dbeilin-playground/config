@@ -22,4 +22,5 @@ base:
     stage:
       enabled: true
       directFromWarehouse: true
-      sourceEnv: stg
+      sourcePath: argocd/stg/stg-be/nginx
+      targetPath: argocd/cand/candidate-fra

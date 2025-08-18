@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/dbeilin-playground/config.git
-    path: argocd/stg/nginx
+    path: argocd/stg/stg-be/nginx
     targetRevision: HEAD
     helm:
       valueFiles:

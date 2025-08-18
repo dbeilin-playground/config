@@ -8,5 +8,5 @@ appVersion: "1.25"
 dependencies:
 - name: app-base
   version: "0.1.0"
-  repository: "file://../../charts/app-base"
+  repository: "file://../../../charts/app-base"
   alias: base
