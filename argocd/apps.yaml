@@ -41,7 +41,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/dbeilin-playground/config.git
-    path: argocd/cand/nginx
+    path: argocd/cand/candidate-fra/nginx
     targetRevision: HEAD
     helm:
       valueFiles:
@@ -68,7 +68,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/dbeilin-playground/config.git
-    path: argocd/prod/nginx
+    path: argocd/prod/prod-fra/nginx
     targetRevision: HEAD
     helm:
       valueFiles:
@@ -96,7 +96,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/dbeilin-playground/config.git
-    path: argocd/stg/hello-api
+    path: argocd/stg/stg-be/hello-api
     targetRevision: HEAD
     helm:
       valueFiles:
@@ -127,7 +127,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/dbeilin-playground/config.git
-    path: argocd/cand/hello-api
+    path: argocd/cand/candidate-fra/hello-api
     targetRevision: HEAD
     helm:
       valueFiles:
@@ -155,7 +155,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/dbeilin-playground/config.git
-    path: argocd/prod/hello-api
+    path: argocd/prod/prod-fra/hello-api
     targetRevision: HEAD
     helm:
       valueFiles:
