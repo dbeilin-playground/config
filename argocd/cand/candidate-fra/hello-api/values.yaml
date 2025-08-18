@@ -23,4 +23,4 @@ base:
       enabled: true
       directFromWarehouse: true
       sourcePath: argocd/stg/stg-be/hello-api
-      targetPath: argocd/cand/candidate-fra
+      targetPath: argocd/cand/candidate-fra/hello-api

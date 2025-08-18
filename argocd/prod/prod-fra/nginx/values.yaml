@@ -23,5 +23,5 @@ base:
       enabled: true
       directFromWarehouse: false
       sourceStage: cand
-      sourcePath: argocd/cand/candidate-fra
-      targetPath: argocd/prod/prod-fra
+      sourcePath: argocd/cand/candidate-fra/nginx
+      targetPath: argocd/prod/prod-fra/nginx
