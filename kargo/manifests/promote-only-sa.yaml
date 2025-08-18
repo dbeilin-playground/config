@@ -1,0 +1,60 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hello-api-cand-promoter
+  namespace: apps
+  annotations:
+    kargo.akuity.io/description: "Permissions to promote into hello-api-cand stage only"
+    rbac.kargo.akuity.io/claim.email: "beilin@savvy.security"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: hello-api-cand-promoter
+  namespace: apps
+rules:
+- apiGroups:
+  - kargo.akuity.io
+  resources:
+  - promotions
+  verbs:
+  - create
+  - patch
+  - update
+- apiGroups:
+  - kargo.akuity.io
+  resources:
+  - stages
+  verbs:
+  - promote
+  resourceNames:
+  - hello-api-cand
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: hello-api-cand-promoter
+  namespace: apps
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: hello-api-cand-promoter
+subjects:
+- kind: ServiceAccount
+  name: hello-api-cand-promoter
+  namespace: apps
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: hello-api-cand-promoter-viewer
+  namespace: apps
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kargo-viewer
+subjects:
+- kind: ServiceAccount
+  name: hello-api-cand-promoter
+  namespace: apps

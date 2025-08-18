@@ -1,0 +1,39 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: promote-between-envs
+spec:
+  vars:
+  - name: sourcePath     # e.g., "argocd/stg/stg-be/hello-api"
+  - name: targetPath     # e.g., "argocd/cand/candidate-fra"
+  - name: appName        # e.g., "hello-api" (for ArgoCD app reference)
+  - name: targetEnv      # e.g., "cand" (for ArgoCD app reference)
+  steps:
+  - uses: git-clone
+    config:
+      repoURL: https://github.com/dbeilin-playground/config.git
+      checkout:
+      - branch: main
+        path: ./config
+  - uses: copy
+    config:
+      inPath: ./config/${{ vars.sourcePath }}/values-image.yaml
+      outPath: ./config/${{ vars.targetPath }}/values-image.yaml
+  - uses: git-commit
+    as: commit
+    config:
+      path: ./config
+      message: "🚀 Promote ${{ vars.sourcePath }} → ${{ vars.targetPath }}"
+      author:
+        name: "Kargo Bot"
+        email: "kargo@apps.com"
+  - uses: git-push
+    config:
+      path: ./config
+  - uses: argocd-update
+    config:
+      apps:
+      - name: ${{ vars.appName }}-${{ vars.targetEnv }}
+        namespace: argocd
+        sources:
+        - repoURL: https://github.com/dbeilin-playground/config.git

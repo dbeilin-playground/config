@@ -1,0 +1,25 @@
+name: auto-merge
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  auto-merge:
+    if: ${{ github.event.label.name == 'automated_pr' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Auto merge
+        run: |
+          n=0
+          until [ "$n" -ge 2 ]; do
+             gh pr merge --squash "$PR_URL" && break
+             n=$((n+1))
+             sleep 3
+          done
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}

@@ -1,0 +1,35 @@
+app:
+  name: my-app
+  port: 80
+
+replicaCount: 1
+environment: stg
+
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+kargo:
+  warehouse:
+    enabled: false
+    watchPath: ""
+  stage:
+    enabled: false
+    directFromWarehouse: false
+    sourceStage: ""
+    sourcePath: ""
+    targetPath: ""
+    promotionTemplate: "promote-between-envs"
