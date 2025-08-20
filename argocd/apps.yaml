@@ -4,8 +4,6 @@ kind: Application
 metadata:
   name: nginx-stg
   namespace: argocd
-  annotations:
-    kargo.akuity.io/authorized-stage: apps:nginx-stg
 spec:
   project: default
   source:
@@ -90,8 +88,6 @@ kind: Application
 metadata:
   name: hello-api-stg
   namespace: argocd
-  annotations:
-    kargo.akuity.io/authorized-stage: apps:hello-api-stg
 spec:
   project: default
   source:
