@@ -18,7 +18,7 @@ base:
       cpu: 50m
       memory: 64Mi
 
-  kargo:
-    warehouse:
-      enabled: true
-      watchPath: argocd/stg/stg-be/nginx/values-image.yaml
+  # kargo:
+  #   warehouse:
+  #     enabled: true
+  #     watchPath: argocd/stg/stg-be/nginx/values-image.yaml

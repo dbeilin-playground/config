@@ -18,10 +18,10 @@ base:
       cpu: 50m
       memory: 64Mi
 
-  kargo:
-    stage:
-      enabled: true
-      directFromWarehouse: false
-      sourceStage: cand
-      sourcePath: argocd/cand/candidate-fra/hello-api
-      targetPath: argocd/prod/prod-fra/hello-api
+  # kargo:
+  #   stage:
+  #     enabled: true
+  #     directFromWarehouse: false
+  #     sourceStage: cand
+  #     sourcePath: argocd/cand/candidate-fra/hello-api
+  #     targetPath: argocd/prod/prod-fra/hello-api

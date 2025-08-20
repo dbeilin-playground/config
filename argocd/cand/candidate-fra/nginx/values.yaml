@@ -18,9 +18,9 @@ base:
       cpu: 50m
       memory: 64Mi
 
-  kargo:
-    stage:
-      enabled: true
-      directFromWarehouse: true
-      sourcePath: argocd/stg/stg-be/nginx
-      targetPath: argocd/cand/candidate-fra/nginx
+  # kargo:
+  #   stage:
+  #     enabled: true
+  #     directFromWarehouse: true
+  #     sourcePath: argocd/stg/stg-be/nginx
+  #     targetPath: argocd/cand/candidate-fra/nginx
