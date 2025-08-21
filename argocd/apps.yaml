@@ -5,7 +5,7 @@ metadata:
   name: nginx-stg
   namespace: argocd
   annotations:
-    kargo.akuity.io/authorized-stage: apps:nginx-stg
+    kargo.akuity.io/authorized-stage: apps:nginx-stg,debug:nginx-stg-normal,debug:nginx-stg-debug
 spec:
   project: default
   source:
