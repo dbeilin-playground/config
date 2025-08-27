@@ -1,5 +1,5 @@
 base:
   image:
     repository: ghcr.io/dbeilin-playground/hello-api
-    tag: "v1.0.20250820070800-16dbc22"
+    tag: "v1.0.20250827140854-1492e9b"
     pullPolicy: Always
