@@ -1,5 +1,5 @@
 base:
   image:
     repository: ghcr.io/dbeilin-playground/nginx
-    tag: v1.0.20250903080923-d7972d2-cherrypick-cherrypick-kuku-2-sep-2025
+    tag: v1.0.20250903150404-273f1c3
     pullPolicy: Always
