@@ -1,5 +1,5 @@
 microservicechart:
   image:
     repository: ghcr.io/dbeilin-playground/hello-api
-    tag: v1.0.20250907104528-b3ff14d
+    tag: v1.0.20250908093042-2d3756a
     pullPolicy: Always
