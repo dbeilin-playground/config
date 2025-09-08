@@ -1,4 +1,4 @@
-base:
+microservicechart:
   app:
     name: nginx
     port: 80

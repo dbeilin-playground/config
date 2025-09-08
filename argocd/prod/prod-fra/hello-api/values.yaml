@@ -1,4 +1,4 @@
-base:
+microservicechart:
   app:
     name: hello-api
     port: 8080

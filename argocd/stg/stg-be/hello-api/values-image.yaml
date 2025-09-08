@@ -1,4 +1,4 @@
-base:
+microservicechart:
   image:
     repository: ghcr.io/dbeilin-playground/hello-api
     tag: v1.0.20250907104528-b3ff14d
