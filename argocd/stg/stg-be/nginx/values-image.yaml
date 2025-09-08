@@ -1,5 +1,5 @@
 microservicechart:
   image:
     repository: ghcr.io/dbeilin-playground/nginx
-    tag: v1.0.20250908112253-0c846ab
+    tag: v1.0.20250908120235-38315f7
     pullPolicy: Always
