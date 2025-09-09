@@ -2,10 +2,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nginx-stg
+  name: stg-be-nginx
   namespace: argocd
-  annotations:
-    kargo.akuity.io/authorized-stage: apps:nginx-cand
 spec:
   project: default
   source:
@@ -33,10 +31,8 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nginx-cand
+  name: cand-fra-nginx
   namespace: argocd
-  annotations:
-    kargo.akuity.io/authorized-stage: apps:nginx-cand
 spec:
   project: default
   source:
@@ -55,15 +51,14 @@ spec:
     - CreateNamespace=true
     retry:
       limit: 3
+
 ---
 # Nginx PROD Application
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nginx-prod
+  name: prod-fra-nginx
   namespace: argocd
-  annotations:
-    kargo.akuity.io/authorized-stage: apps:nginx-prod
 spec:
   project: default
   source:
@@ -88,10 +83,8 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: hello-api-stg
+  name: stg-be-hello-api
   namespace: argocd
-  annotations:
-    kargo.akuity.io/authorized-stage: apps:hello-api-stg
 spec:
   project: default
   source:
@@ -119,10 +112,8 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: hello-api-cand
+  name: cand-fra-hello-api
   namespace: argocd
-  annotations:
-    kargo.akuity.io/authorized-stage: apps:hello-api-cand
 spec:
   project: default
   source:
@@ -147,10 +138,8 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: hello-api-prod
+  name: prod-fra-hello-api
   namespace: argocd
-  annotations:
-    kargo.akuity.io/authorized-stage: apps:hello-api-prod
 spec:
   project: default
   source:
