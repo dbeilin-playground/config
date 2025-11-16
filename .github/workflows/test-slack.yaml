@@ -8,11 +8,24 @@ jobs:
     name: Send test message to workflow runner
     runs-on: ubuntu-latest
     steps:
-      - name: Send Slack notification to actor
+      # - name: Send Slack notification to actor
+      #   uses: dbeilin-playground/workflows/composite/send-slack-notification@main
+      #   with:
+      #     slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+      #     github_user: ${{ github.actor }}
+      #     message: |
+      #       :white_check_mark: Test notification successful!
+            
+      #       Triggered by: ${{ github.actor }}
+      #       Workflow: ${{ github.workflow }}
+      #       Run ID: ${{ github.run_id }}
+      #       Repository: ${{ github.repository }}
+
+      - name: Send Slack notification to channel
         uses: dbeilin-playground/workflows/composite/send-slack-notification@main
         with:
           slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
-          github_user: ${{ github.actor }}
+          channel_id: "#alerts2"
           message: |
             :white_check_mark: Test notification successful!
             
