@@ -1,0 +1,22 @@
+name: Test Slack Notification
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-slack-notification:
+    name: Send test message to workflow runner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack notification to actor
+        uses: unbiased-security/workflows/composite/send-slack-notification@main
+        with:
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          github_user: ${{ github.actor }}
+          message: |
+            :white_check_mark: Test notification successful!
+            
+            Triggered by: ${{ github.actor }}
+            Workflow: ${{ github.workflow }}
+            Run ID: ${{ github.run_id }}
+            Repository: ${{ github.repository }}
