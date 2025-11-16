@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Slack notification to actor
-        uses: unbiased-security/workflows/composite/send-slack-notification@main
+        uses: dbeilin-playground/workflows/composite/send-slack-notification@main
         with:
           slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
           github_user: ${{ github.actor }}
