@@ -21,15 +21,36 @@ jobs:
       #       Run ID: ${{ github.run_id }}
       #       Repository: ${{ github.repository }}
 
-      - name: Send Slack notification to channel
+      # - name: Send Slack notification to channel
+      #   uses: dbeilin-playground/workflows/composite/send-slack-notification@main
+      #   with:
+      #     slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+      #     channel_id: "#alerts2"
+      #     message: |
+      #       :white_check_mark: Test notification successful!
+            
+      #       Triggered by: ${{ github.actor }}
+      #       Workflow: ${{ github.workflow }}
+      #       Run ID: ${{ github.run_id }}
+      #       Repository: ${{ github.repository }}
+
+      - name: "Notification (Success)"
         uses: dbeilin-playground/workflows/composite/send-slack-notification@main
         with:
           slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel_id: "#alerts2"
+          github_user: ${{ github.actor }}
           message: |
-            :white_check_mark: Test notification successful!
-            
-            Triggered by: ${{ github.actor }}
-            Workflow: ${{ github.workflow }}
-            Run ID: ${{ github.run_id }}
-            Repository: ${{ github.repository }}
+            Congrats on pushing <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.vars.outputs.commit_message }}> to `${{ github.event.repository.name }}`!
+            Please update the release notes fields in your <https://unbiasedsecurity.atlassian.net/browse/${{ steps.vars.outputs.jira_ticket }}|jira ticket>.
+          blocks: |
+            - type: "section"
+              text:
+                type: "mrkdwn"
+                text: "Congrats on pushing <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.vars.outputs.commit_message }}> to `${{ github.event.repository.name }}`!"
+            - type: "section"
+              text:
+                type: "mrkdwn"
+                text: "Please update the release notes fields in your <https://unbiasedsecurity.atlassian.net/browse/${{ steps.vars.outputs.jira_ticket }}|jira ticket>."
+            - type: "image"
+              image_url: "https://storage.googleapis.com/unbiased-static-content-dev/release_notes_guide.png"
+              alt_text: ""
