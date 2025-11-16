@@ -38,7 +38,8 @@ jobs:
         uses: dbeilin-playground/workflows/composite/send-slack-notification@main
         with:
           slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
-          github_user: ${{ github.actor }}
+          # github_user: ${{ github.actor }}
+          channel_id: alerts2
           message: |
             Congrats on pushing <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.vars.outputs.commit_message }}> to `${{ github.event.repository.name }}`!
             Please update the release notes fields in your <https://unbiasedsecurity.atlassian.net/browse/${{ steps.vars.outputs.jira_ticket }}|jira ticket>.
