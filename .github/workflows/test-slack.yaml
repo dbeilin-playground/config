@@ -25,7 +25,6 @@ jobs:
         uses: dbeilin-playground/workflows/composite/send-slack-notification@main
         with:
           slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel_id: "#alerts2"
           message: |
             :white_check_mark: Test notification successful!
             
