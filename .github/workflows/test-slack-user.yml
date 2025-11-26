@@ -1,0 +1,22 @@
+name: Test Slack User Notification
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-user-notification:
+    name: Send test message to user
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack notification to user
+        uses: dbeilin-playground/workflows/composite/send-slack-notification@main
+        with:
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          github_user: ${{ github.actor }}
+          message: |
+            :bell: Test user notification
+            
+            Triggered by: ${{ github.actor }}
+            Workflow: ${{ github.workflow }}
+            Repository: ${{ github.repository }}
+            Run ID: ${{ github.run_id }}

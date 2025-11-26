@@ -1,0 +1,21 @@
+name: Test Slack Channel Notification
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-channel-notification:
+    name: Send test message to channel
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack notification to channel
+        uses: dbeilin-playground/workflows/composite/send-slack-notification@main
+        with:
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          message: |
+            :bell: Test channel notification
+            
+            Triggered by: ${{ github.actor }}
+            Workflow: ${{ github.workflow }}
+            Repository: ${{ github.repository }}
+            Run ID: ${{ github.run_id }}
